@@ -1,73 +1,26 @@
-# React + TypeScript + Vite
+# Surprise — anime.js × React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A tiny interactive gift-box reveal built with [anime.js v4](https://animejs.com) and React 19.
 
-Currently, two official plugins are available:
+Drag the wrapped present around the stage. The bow unties with an SVG stroke-draw, the lid pops off with spring physics, confetti bursts outward in staggered waves, and a hidden message floats up from inside. After the burst, every confetti piece becomes draggable — fling them around.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## What's inside
 
-## React Compiler
+- **`createTimeline`** chains the unwrap sequence (bow → ribbons → lid → glow → confetti → message).
+- **`svg.createDrawable`** animates the bow's stroke off.
+- **`createSpring`** gives the lid and confetti satisfying bounce.
+- **`createDraggable`** wires up the gift and every confetti piece.
+- **`stagger`** spaces out the bow strokes, confetti burst (from center), and the letters of "Surprise!".
+- **`createScope`** keeps everything scoped to the React root so `revert()` cleans up on unmount.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run it
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+bun install
+bun run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open the printed URL. Watch the reveal play once on mount, then use:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Wrap it up** — restart the whole sequence from the wrapped state.
+- **Burst again** — re-fan the confetti without rewinding the box.
